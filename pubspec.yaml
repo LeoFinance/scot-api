@@ -1,5 +1,5 @@
 name: scot_api
-description: A new Flutter package project.
+description: A simple client to connect to the Scotbot interface of Hive tribes.
 version: 0.0.1
 
 environment:
