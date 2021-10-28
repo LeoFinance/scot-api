@@ -1,0 +1,83 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'post_info.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+PostInfo _$PostInfoFromJson(Map<String, dynamic> json) => PostInfo(
+      activeVotes: (json['active_votes'] as List<dynamic>)
+          .map((e) => ActiveVote.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      app: json['app'] as String,
+      author: json['author'] as String,
+      authorCurveExponent: (json['author_curve_exponent'] as num).toDouble(),
+      authorPayoutBeneficiaries: json['author_payout_beneficiaries'] as String,
+      authorperm: json['authorperm'] as String,
+      beneficiariesPayoutValue: json['beneficiaries_payout_value'] as int,
+      block: json['block'] as int,
+      cashoutTime: DateTime.parse(json['cashout_time'] as String),
+      children: json['children'] as int,
+      created: DateTime.parse(json['created'] as String),
+      curatorPayoutValue: json['curator_payout_value'] as int,
+      declinePayout: json['decline_payout'] as bool,
+      desc: json['desc'] as String,
+      hive: json['hive'] as bool,
+      jsonMetadata: json['json_metadata'] as String,
+      lastPayout: DateTime.parse(json['last_payout'] as String),
+      lastUpdate: DateTime.parse(json['last_update'] as String),
+      mainPost: json['main_post'] as bool,
+      muted: json['muted'] as bool,
+      parentAuthor: json['parent_author'] as String,
+      parentPermlink: json['parent_permlink'] as String,
+      pendingToken: json['pending_token'] as int,
+      precision: json['precision'] as int,
+      promoted: json['promoted'] as int,
+      scoreHot: (json['score_hot'] as num).toDouble(),
+      scorePromoted: (json['score_promoted'] as num).toDouble(),
+      scoreTrend: (json['score_trend'] as num).toDouble(),
+      tags: json['tags'] as String,
+      title: json['title'] as String,
+      token: json['token'] as String,
+      totalPayoutValue: json['total_payout_value'] as int,
+      totalVoteWeight: json['total_vote_weight'] as int,
+      voteRshares: json['vote_rshares'] as int,
+    );
+
+Map<String, dynamic> _$PostInfoToJson(PostInfo instance) => <String, dynamic>{
+      'active_votes': instance.activeVotes.map((e) => e.toJson()).toList(),
+      'app': instance.app,
+      'author': instance.author,
+      'author_curve_exponent': instance.authorCurveExponent,
+      'author_payout_beneficiaries': instance.authorPayoutBeneficiaries,
+      'authorperm': instance.authorperm,
+      'beneficiaries_payout_value': instance.beneficiariesPayoutValue,
+      'block': instance.block,
+      'cashout_time': instance.cashoutTime.toIso8601String(),
+      'children': instance.children,
+      'created': instance.created.toIso8601String(),
+      'curator_payout_value': instance.curatorPayoutValue,
+      'decline_payout': instance.declinePayout,
+      'desc': instance.desc,
+      'hive': instance.hive,
+      'json_metadata': instance.jsonMetadata,
+      'last_payout': instance.lastPayout.toIso8601String(),
+      'last_update': instance.lastUpdate.toIso8601String(),
+      'main_post': instance.mainPost,
+      'muted': instance.muted,
+      'parent_author': instance.parentAuthor,
+      'parent_permlink': instance.parentPermlink,
+      'pending_token': instance.pendingToken,
+      'precision': instance.precision,
+      'promoted': instance.promoted,
+      'score_hot': instance.scoreHot,
+      'score_promoted': instance.scorePromoted,
+      'score_trend': instance.scoreTrend,
+      'tags': instance.tags,
+      'title': instance.title,
+      'token': instance.token,
+      'total_payout_value': instance.totalPayoutValue,
+      'total_vote_weight': instance.totalVoteWeight,
+      'vote_rshares': instance.voteRshares,
+    };
