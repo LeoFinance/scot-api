@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+
 import '../scot_api.dart';
 
 /// Exception thrown when getPost fails.
@@ -118,10 +119,8 @@ class ScotApiClient {
     }
 
     try {
-      final postInfo =
-          bodyJson.map((key, value) => MapEntry(key, PostInfo.fromJson(value)));
-      print('Success scot getPost $postInfo');
-      return postInfo;
+      return bodyJson
+          .map((key, value) => MapEntry(key, PostInfo.fromJson(value)));
     } catch (e, s) {
       print('Failed to parse $account - $permlink: $e');
       print(s);

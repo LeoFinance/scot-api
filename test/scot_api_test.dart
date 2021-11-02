@@ -1,6 +1,7 @@
-import 'package:scot_api/scot_api.dart';
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:scot_api/scot_api.dart';
 import 'package:test/test.dart';
 
 void main() {
