@@ -92,6 +92,7 @@ class ScotApiClient {
   }
 
   /// Shows information about a post
+  /// Returns a map of each token to its associated PostInfo.
   Future<Map<String, PostInfo>> getPostInfo(
       {required String account,
       required String permlink,
@@ -131,7 +132,7 @@ class ScotApiClient {
 
   Future<TokenInfo> getTokenInfo(String token) async {
     final queryArgs = {'hive': '1', 'token': token};
-    final uri = Uri.https(_baseUrl, '/info/$token', queryArgs);
+    final uri = Uri.https(_baseUrl, '/info', queryArgs);
 
     final postResponse = await _httpClient.get(uri);
 

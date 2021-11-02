@@ -7,7 +7,7 @@ void main() {
   group('AccountTokenData', () {
     group('fromJson', () {
       test('decodes from JSON', () async {
-        final json = await File('test/helpers/fake_account.json')
+        final json = await File('test/samples/account.json')
             .readAsString()
             .then(jsonDecode) as Map<String, dynamic>;
 
@@ -23,17 +23,17 @@ void main() {
   group('PostInfo', () {
     group('fromJson', () {
       test('decodes from JSON', () async {
-        final json = await File('test/helpers/fake_post_info.json')
+        final json = await File('test/samples/post_info.json')
             .readAsString()
             .then(jsonDecode) as Map<String, dynamic>;
 
         expect(
-            PostInfo.fromJson(json['LEO']!),
+            PostInfo.fromJson(json),
             isA<PostInfo>()
                 .having((p) => p.token, 'token', 'LEO')
-                .having((p) => p.author, 'author', 'khaleelkazi')
+                .having((p) => p.author, 'author', 'cwow2')
                 .having(
-                    (p) => p.activeVotes.length, 'active_votes length', 680));
+                    (p) => p.activeVotes.length, 'active_votes length', 160));
       });
     });
   });
@@ -41,16 +41,16 @@ void main() {
   group('ActiveVote', () {
     group('fromJson', () {
       test('reads a single record from active_votes', () async {
-        final json = (await File('test/helpers/fake_post_info.json')
+        final json = (await File('test/samples/post_info.json')
             .readAsString()
-            .then(jsonDecode))["LEO"]['active_votes'][0];
+            .then(jsonDecode))['active_votes'][0];
 
         expect(
             ActiveVote.fromJson(json),
             isA<ActiveVote>()
-                .having((d) => d.voter, 'voter', 'adumbrate')
+                .having((d) => d.voter, 'voter', 'clockviper')
                 .having((d) => d.timestamp, 'timestamp',
-                    DateTime.parse('2021-10-24T21:19:06Z')));
+                    DateTime.parse('2021-10-30T08:36:51Z')));
       });
     });
   });
@@ -58,7 +58,7 @@ void main() {
   group('TokenInfo', () {
     group('fromJson', () {
       test('reads TokenInfo', () async {
-        final json = (await File('test/helpers/fake_token_info.json')
+        final json = (await File('test/samples/token_info.json')
             .readAsString()
             .then(jsonDecode) as Map<String, dynamic>);
         expect(
