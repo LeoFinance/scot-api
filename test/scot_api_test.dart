@@ -36,6 +36,17 @@ void main() {
                 .having(
                     (p) => p.activeVotes.length, 'active_votes length', 160));
       });
+
+      test('decodes from JSON if no active votes', () async {
+        final json = await File('test/samples/post_info_non_leo.json')
+            .readAsString()
+            .then(jsonDecode) as Map<String, dynamic>;
+
+        expect(
+            PostInfo.fromJson(json),
+            isA<PostInfo>()
+                .having((p) => p.activeVotes, 'active_votes', hasLength(0)));
+      });
     });
   });
 

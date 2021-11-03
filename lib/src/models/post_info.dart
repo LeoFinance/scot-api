@@ -119,4 +119,7 @@ class PostInfo extends Equatable {
       _$PostInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostInfoToJson(this);
+
+  @override
+  bool get stringify => true;
 }
