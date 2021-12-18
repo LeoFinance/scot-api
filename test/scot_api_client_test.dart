@@ -54,7 +54,7 @@ void main() {
         expect(
           scotApiClient.getPostInfo(
               account: author, permlink: permlink, token: token),
-          throwsA(isA<PostNotFoundFailure>()),
+          throwsA(isA<NotFoundFailure>()),
         );
       });
 

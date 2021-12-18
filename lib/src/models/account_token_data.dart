@@ -8,12 +8,19 @@ class AccountTokenData {
   static final DateFormat longDateTimeFormatter =
       DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 
-  static fromLongDateTime(String json) => longDateTimeFormatter.parse(json);
-  static toLongDateTime(DateTime dateTime) =>
+  static DateTime fromLongDateTime(String json) =>
+      longDateTimeFormatter.parse(json);
+  static String toLongDateTime(DateTime dateTime) =>
       longDateTimeFormatter.format(dateTime);
+
+  static DateTime fromUTCDateTime(String json) => DateTime.parse(json + 'Z');
+  static String toUTCDateTime(DateTime dateTime) =>
+      dateTime.toIso8601String().replaceFirst('Z', '');
 
   final int downvotingPower;
   final int earnedToken;
+
+  @JsonKey(fromJson: fromUTCDateTime, toJson: toUTCDateTime)
   final DateTime lastDownvoteTime;
 
   @JsonKey(fromJson: fromLongDateTime, toJson: toLongDateTime)
@@ -21,6 +28,7 @@ class AccountTokenData {
   @JsonKey(fromJson: fromLongDateTime, toJson: toLongDateTime)
   final DateTime lastRootPost;
 
+  @JsonKey(fromJson: fromUTCDateTime, toJson: toUTCDateTime)
   final DateTime lastVoteTime;
 
   @JsonKey(fromJson: fromLongDateTime, toJson: toLongDateTime)

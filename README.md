@@ -1,4 +1,4 @@
-![Dart](https://github.com/LeoFinance/scot_api/actions/workflows/dart.yml/badge.svg)
+![Tests](https://github.com/LeoFinance/scot_api/actions/workflows/dart.yml/badge.svg)
 
 # scot_api
 
