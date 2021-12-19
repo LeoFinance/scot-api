@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'account_token_data.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class AccountTokenData {
+class AccountTokenData extends Equatable {
   static final DateFormat longDateTimeFormatter =
       DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 
@@ -65,6 +66,24 @@ class AccountTokenData {
       required this.votingPower,
       this.loki});
 
+  @override
+  List<Object?> get props => [
+        name,
+        symbol,
+        votingPower,
+        muted,
+        downvotingPower,
+        earnedToken,
+        lastDownvoteTime,
+        lastPost,
+        lastVoteTime,
+        lastWonMiningClaim,
+        lastWonStakingClaim,
+        pendingToken,
+        stakedMiningPower,
+        stakedTokens,
+      ];
+
   factory AccountTokenData.fromJson(Map<String, dynamic> json) {
     try {
       return _$AccountTokenDataFromJson(json);
@@ -76,4 +95,7 @@ class AccountTokenData {
   }
 
   Map<String, dynamic> toJson() => _$AccountTokenDataToJson(this);
+
+  @override
+  bool get stringify => true;
 }
