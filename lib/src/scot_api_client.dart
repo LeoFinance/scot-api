@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:http/http.dart' as http;
 
 import '../scot_api.dart';
@@ -126,7 +125,7 @@ class ScotApiClient {
       {required DiscussionType discussionType,
       required String token,
       required String tag}) async {
-    final discussionTypeStr = EnumToString.convertToString(discussionType);
+    final discussionTypeStr = discussionType.name;
     final queryArgs = {'token': token, 'tag': tag, 'hive': '1'};
     final uri = Uri.https(
         _baseUrl, '/get_discussions_by_${discussionTypeStr}', queryArgs);
