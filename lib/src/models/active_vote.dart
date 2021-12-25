@@ -6,7 +6,7 @@ part 'active_vote.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ActiveVote extends Equatable {
   ActiveVote({
-    required this.authorperm,
+    this.authorperm,
     required this.blockNum,
     required this.percent,
     required this.revoted,
@@ -21,7 +21,7 @@ class ActiveVote extends Equatable {
     return DateTime.parse(json + (json.endsWith('Z') ? '' : 'Z'));
   }
 
-  final String authorperm;
+  final String? authorperm;
   final int blockNum;
   final int percent;
   final dynamic revoted;
@@ -34,7 +34,7 @@ class ActiveVote extends Equatable {
 
   @override
   List<Object> get props =>
-      [authorperm, blockNum, percent, rshares, timestamp, token, voter, weight];
+      [blockNum, percent, rshares, timestamp, token, voter, weight];
 
   factory ActiveVote.fromJson(Map<String, dynamic> json) =>
       _$ActiveVoteFromJson(json);

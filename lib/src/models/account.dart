@@ -2,23 +2,26 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'account_token_data.g.dart';
+part 'account.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class AccountTokenData extends Equatable {
+class Account extends Equatable {
   static final DateFormat longDateTimeFormatter =
       DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
 
   static DateTime fromLongDateTime(String json) =>
-      longDateTimeFormatter.parse(json);
+      longDateTimeFormatter.parseUtc(json);
   static String toLongDateTime(DateTime dateTime) =>
-      longDateTimeFormatter.format(dateTime);
+      longDateTimeFormatter.format(dateTime).replaceFirst('Z', '');
 
   static DateTime fromUTCDateTime(String json) => DateTime.parse(json + 'Z');
   static String toUTCDateTime(DateTime dateTime) =>
       dateTime.toIso8601String().replaceFirst('Z', '');
 
   final int downvotingPower;
+  final int earnedMiningToken;
+  final int earnedOtherToken;
+  final int earnedStakingToken;
   final int earnedToken;
 
   @JsonKey(fromJson: fromUTCDateTime, toJson: toUTCDateTime)
@@ -42,14 +45,20 @@ class AccountTokenData extends Equatable {
   final String name;
   final int pendingToken;
   final double stakedMiningPower;
+  final int precision;
   final int stakedTokens;
   final String symbol;
   final int votingPower;
+  final double downvoteWeightMultiplier;
+  final double voteWeightMultiplier;
 
   final dynamic loki;
 
-  AccountTokenData(
+  Account(
       {required this.downvotingPower,
+      this.earnedMiningToken = 0,
+      this.earnedOtherToken = 0,
+      this.earnedStakingToken = 0,
       required this.earnedToken,
       required this.lastDownvoteTime,
       required this.lastPost,
@@ -58,11 +67,14 @@ class AccountTokenData extends Equatable {
       required this.lastWonMiningClaim,
       required this.lastWonStakingClaim,
       required this.muted,
+      required this.precision,
       required this.name,
       required this.pendingToken,
       required this.stakedMiningPower,
       required this.stakedTokens,
       required this.symbol,
+      this.downvoteWeightMultiplier = 1.0,
+      this.voteWeightMultiplier = 1.0,
       required this.votingPower,
       this.loki});
 
@@ -73,6 +85,9 @@ class AccountTokenData extends Equatable {
         votingPower,
         muted,
         downvotingPower,
+        earnedMiningToken,
+        earnedOtherToken,
+        earnedStakingToken,
         earnedToken,
         lastDownvoteTime,
         lastPost,
@@ -80,13 +95,15 @@ class AccountTokenData extends Equatable {
         lastWonMiningClaim,
         lastWonStakingClaim,
         pendingToken,
+        precision,
+        voteWeightMultiplier,
         stakedMiningPower,
         stakedTokens,
       ];
 
-  factory AccountTokenData.fromJson(Map<String, dynamic> json) {
+  factory Account.fromJson(Map<String, dynamic> json) {
     try {
-      return _$AccountTokenDataFromJson(json);
+      return _$AccountFromJson(json);
     } catch (e, s) {
       print('Failed parsing account $json');
       print(s);
@@ -94,7 +111,7 @@ class AccountTokenData extends Equatable {
     }
   }
 
-  Map<String, dynamic> toJson() => _$AccountTokenDataToJson(this);
+  Map<String, dynamic> toJson() => _$AccountToJson(this);
 
   @override
   bool get stringify => true;

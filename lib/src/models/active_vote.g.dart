@@ -7,7 +7,7 @@ part of 'active_vote.dart';
 // **************************************************************************
 
 ActiveVote _$ActiveVoteFromJson(Map<String, dynamic> json) => ActiveVote(
-      authorperm: json['authorperm'] as String,
+      authorperm: json['authorperm'] as String?,
       blockNum: json['block_num'] as int,
       percent: json['percent'] as int,
       revoted: json['revoted'],

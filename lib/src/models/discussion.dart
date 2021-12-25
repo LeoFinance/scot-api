@@ -49,7 +49,7 @@ class Discussion {
   final List<ActiveVote> activeVotes;
   final String app;
   final String author;
-  final int authorCurveExponent;
+  final double authorCurveExponent;
   final String authorPayoutBeneficiaries;
   final String authorperm;
   final int beneficiariesPayoutValue;
@@ -72,8 +72,8 @@ class Discussion {
   final String permlink;
   final int precision;
   final int promoted;
-  final int scoreHot;
-  final int scorePromoted;
+  final double scoreHot;
+  final double scorePromoted;
   final double scoreTrend;
   final String tags;
   final String title;
@@ -86,4 +86,7 @@ class Discussion {
       _$DiscussionFromJson(json);
 
   Map<String, dynamic> toJson() => _$DiscussionToJson(this);
+
+  @override
+  String toString() => 'tribe.Discussion @$author/$permlink';
 }

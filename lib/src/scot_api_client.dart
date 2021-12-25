@@ -21,6 +21,9 @@ class NotFoundFailure implements Exception {
   final String message;
 
   const NotFoundFailure(this.message);
+
+  @override
+  String toString() => 'NotFoundFailure: $message';
 }
 
 class ScotApiClient {
@@ -31,21 +34,17 @@ class ScotApiClient {
   ScotApiClient({http.Client? httpClient})
       : _httpClient = httpClient ?? http.Client();
 
-  Future<Map<String, AccountTokenData>> getAccount(String accountName,
-      {String? token}) async {
-    final queryArgs = {
+  Future<Map<String, Account>> getAccount(String accountName) async {
+    final queryArgs = <String, String>{
       'hive': '1',
     };
-    if (token != null) {
-      queryArgs['token'] = token;
-    }
     final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
     print('getAccount > $uri');
     final bodyJson = await _fetchData(uri);
 
     try {
-      final account = bodyJson
-          .map((key, value) => MapEntry(key, AccountTokenData.fromJson(value)));
+      final account =
+          bodyJson.map((key, value) => MapEntry(key, Account.fromJson(value)));
       print('Success scot getClient $accountName');
       return account;
     } catch (e, s) {
@@ -56,14 +55,37 @@ class ScotApiClient {
     }
   }
 
-  Future<Map<String, dynamic>> _fetchData(Uri uri) async {
+  Future<Account> getAccountForToken(String accountName,
+      {required String token}) async {
+    final queryArgs = <String, String>{
+      'hive': '1',
+    };
+    queryArgs['token'] = token;
+    final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
+    print('getAccount > $uri');
+    final bodyJson = await _fetchData(uri);
+
+    try {
+      final account =
+          bodyJson.map((key, value) => MapEntry(key, Account.fromJson(value)));
+      print('Success scot getClient $accountName');
+      return account[token]!;
+    } catch (e, s) {
+      print('Failed to parse $accountName: $e');
+      print(s);
+      print('Failed data: $bodyJson');
+      throw e;
+    }
+  }
+
+  Future<dynamic> _fetchData(Uri uri) async {
     final postResponse = await _httpClient.get(uri);
 
     if (postResponse.statusCode != 200) {
       throw ContentRequestFailure(statusCode: postResponse.statusCode);
     }
 
-    final data = jsonDecode(postResponse.body) as Map<String, dynamic>;
+    final data = jsonDecode(postResponse.body);
     if (data.isEmpty) {
       throw NotFoundFailure('Data not found at uri $uri');
     } else {
@@ -77,14 +99,14 @@ class ScotApiClient {
       {required String account,
       required String permlink,
       String? token}) async {
-    final queryArgs = {
+    final queryArgs = <String, String>{
       'hive': '1',
     };
     if (token != null) {
       queryArgs['token'] = token;
     }
     final uri = Uri.https(_baseUrl, '/@$account/$permlink', queryArgs);
-    final bodyJson = await _fetchData(uri);
+    final bodyJson = (await _fetchData(uri)) as Map<String, dynamic>;
 
     try {
       return bodyJson
@@ -98,7 +120,7 @@ class ScotApiClient {
   }
 
   Future<TokenInfo> getTokenInfo(String token) async {
-    final queryArgs = {'hive': '1', 'token': token};
+    final queryArgs = <String, String>{'hive': '1', 'token': token};
     final uri = Uri.https(_baseUrl, '/info', queryArgs);
     final bodyJson = await _fetchData(uri);
 
@@ -106,27 +128,34 @@ class ScotApiClient {
   }
 
   Future<TokenConfig> getConfig(String token) async {
-    final queryArgs = {'hive': '1', 'token': token};
+    final queryArgs = <String, String>{'hive': '1', 'token': token};
     final uri = Uri.https(_baseUrl, '/config', queryArgs);
     final bodyJson = await _fetchData(uri);
 
     return TokenConfig.fromJson(bodyJson);
   }
 
-  // Future<Feed> getFeed({required String tag}) async {
-  //   final queryArgs = {'hive': '1', 'tag': tag};
-  //   final uri = Uri.https(_baseUrl, '/get_feed', queryArgs);
-  //   final bodyJson = await _fetchData(uri);
+  Future<List<PostInfo>> getFeed(
+      {required String tag, required String token, required int limit}) async {
+    final queryArgs = <String, String>{
+      'hive': '1',
+      'tag': tag,
+      'token': token,
+      'limit': limit.toString()
+    };
+    final uri = Uri.https(_baseUrl, '/get_feed', queryArgs);
+    final bodyJson = await _fetchData(uri) as List;
 
-  //   return Feed.fromJson(bodyJson);
-  // }
+    return bodyJson.map((d) => PostInfo.fromJson(d)).toList();
+  }
 
-  Future<List<Discussion>> getDiscussionsBy(
-      {required DiscussionType discussionType,
-      required String token,
-      required String tag}) async {
+  Future<List<Discussion>> getDiscussionsBy(DiscussionType discussionType,
+      {required String token, required String tag, int? limit}) async {
     final discussionTypeStr = discussionType.name;
-    final queryArgs = {'token': token, 'tag': tag, 'hive': '1'};
+    final queryArgs = <String, String>{'token': token, 'tag': tag, 'hive': '1'};
+    if (limit != null) {
+      queryArgs['limit'] = limit.toString();
+    }
     final uri = Uri.https(
         _baseUrl, '/get_discussions_by_${discussionTypeStr}', queryArgs);
     final bodyJson = await _fetchData(uri) as List;

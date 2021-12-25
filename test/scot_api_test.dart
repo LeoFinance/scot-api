@@ -13,8 +13,8 @@ void main() {
             .then(jsonDecode) as Map<String, dynamic>;
 
         expect(
-            AccountTokenData.fromJson(json['LEO']!),
-            isA<AccountTokenData>()
+            Account.fromJson(json['LEO']!),
+            isA<Account>()
                 .having((atd) => atd.symbol, 'symbol', 'LEO')
                 .having((atd) => atd.stakedTokens, 'stakedTokens', 1007659));
       });
