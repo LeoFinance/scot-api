@@ -39,7 +39,7 @@ class ScotApiClient {
       'hive': '1',
     };
     final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
-    print('getAccount > $uri');
+    print('scot_api.getAccount > $uri');
     final bodyJson = await _fetchData(uri);
 
     try {
@@ -62,7 +62,7 @@ class ScotApiClient {
     };
     queryArgs['token'] = token;
     final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
-    print('getAccount > $uri');
+    print('scot_api.getAccountForToken > $uri');
     final bodyJson = await _fetchData(uri);
 
     try {
