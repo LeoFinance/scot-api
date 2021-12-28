@@ -10,7 +10,7 @@ PostInfo _$PostInfoFromJson(Map<String, dynamic> json) => PostInfo(
       activeVotes: (json['active_votes'] as List<dynamic>)
           .map((e) => ActiveVote.fromJson(e as Map<String, dynamic>))
           .toList(),
-      app: json['app'] as String,
+      app: json['app'] as String?,
       author: json['author'] as String,
       authorCurveExponent: (json['author_curve_exponent'] as num).toDouble(),
       authorPayoutBeneficiaries: json['author_payout_beneficiaries'] as String,

@@ -44,7 +44,7 @@ class PostInfo extends Equatable {
   });
 
   final List<ActiveVote> activeVotes;
-  final String app;
+  final String? app;
   final String author;
   final double authorCurveExponent;
   final String authorPayoutBeneficiaries;
@@ -79,7 +79,7 @@ class PostInfo extends Equatable {
   final int voteRshares;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         activeVotes,
         app,
         author,

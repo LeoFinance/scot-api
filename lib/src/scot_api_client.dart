@@ -112,7 +112,7 @@ class ScotApiClient {
       return bodyJson
           .map((key, value) => MapEntry(key, PostInfo.fromJson(value)));
     } catch (e, s) {
-      print('Failed to parse $account - $permlink: $e');
+      print('Failed to parse @$account/$permlink: $e');
       print(s);
       print('Failed data: $bodyJson');
       throw e;
