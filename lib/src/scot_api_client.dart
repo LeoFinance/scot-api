@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/date_symbol_data_local.dart';
 
 import '../scot_api.dart';
 
@@ -32,7 +33,9 @@ class ScotApiClient {
 
   /// {@macro lightning_api_client}
   ScotApiClient({http.Client? httpClient})
-      : _httpClient = httpClient ?? http.Client();
+      : _httpClient = httpClient ?? http.Client() {
+    initializeDateFormatting('en-US');
+  }
 
   Future<Map<String, Account>> getAccount(String accountName) async {
     final queryArgs = <String, String>{
