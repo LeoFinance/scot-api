@@ -47,7 +47,7 @@ class Discussion {
   });
 
   final List<ActiveVote> activeVotes;
-  final String app;
+  final String? app;
   final String author;
   final double authorCurveExponent;
   final String authorPayoutBeneficiaries;
