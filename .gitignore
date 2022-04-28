@@ -30,6 +30,10 @@
 .pub/
 build/
 
+## For library packages, don’t commit the pubspec.lock file.
+## See https://dart.dev/guides/libraries/private-files
+pubspec.lock
+
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
