@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import 'models.dart';
+import 'package:scot_api/src/models/models.dart';
 
 part 'discussion.g.dart';
 
@@ -8,7 +7,7 @@ enum DiscussionType { created, trending, promoted, hot, blog }
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Discussion {
-  Discussion({
+  const Discussion({
     required this.activeVotes,
     required this.app,
     required this.author,
@@ -46,6 +45,9 @@ class Discussion {
     required this.voteRshares,
   });
 
+  factory Discussion.fromJson(Map<String, dynamic> json) =>
+      _$DiscussionFromJson(json);
+
   final List<ActiveVote> activeVotes;
   final String? app;
   final String author;
@@ -81,9 +83,6 @@ class Discussion {
   final int totalPayoutValue;
   final int totalVoteWeight;
   final int voteRshares;
-
-  factory Discussion.fromJson(Map<String, dynamic> json) =>
-      _$DiscussionFromJson(json);
 
   Map<String, dynamic> toJson() => _$DiscussionToJson(this);
 

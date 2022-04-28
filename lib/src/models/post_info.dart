@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'models.dart';
+import 'package:scot_api/src/models/models.dart';
 
 part 'post_info.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class PostInfo extends Equatable {
-  PostInfo({
+  const PostInfo({
     required this.activeVotes,
     required this.app,
     required this.author,
@@ -42,6 +42,9 @@ class PostInfo extends Equatable {
     required this.totalVoteWeight,
     required this.voteRshares,
   });
+
+  factory PostInfo.fromJson(Map<String, dynamic> json) =>
+      _$PostInfoFromJson(json);
 
   final List<ActiveVote> activeVotes;
   final String? app;
@@ -114,9 +117,6 @@ class PostInfo extends Equatable {
         totalVoteWeight,
         voteRshares
       ];
-
-  factory PostInfo.fromJson(Map<String, dynamic> json) =>
-      _$PostInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostInfoToJson(this);
 

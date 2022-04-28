@@ -4,7 +4,7 @@ part 'token_info.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class TokenInfo {
-  TokenInfo({
+  const TokenInfo({
     required this.claimedToken,
     required this.commentPendingRshares,
     required this.commentRewardPool,
@@ -50,6 +50,9 @@ class TokenInfo {
     required this.votingEnabled,
   });
 
+  factory TokenInfo.fromJson(Map<String, dynamic> json) =>
+      _$TokenInfoFromJson(json);
+
   final int claimedToken;
   final int commentPendingRshares;
   final int commentRewardPool;
@@ -93,9 +96,6 @@ class TokenInfo {
   final String symbol;
   final int totalGeneratedToken;
   final bool votingEnabled;
-
-  factory TokenInfo.fromJson(Map<String, dynamic> json) =>
-      _$TokenInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$TokenInfoToJson(this);
 }

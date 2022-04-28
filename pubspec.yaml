@@ -1,6 +1,6 @@
 name: scot_api
 description: A simple client to connect to the Scotbot interface of Hive tribes.
-version: 0.0.1
+version: 0.1.0+1
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
@@ -8,12 +8,13 @@ environment:
 dependencies:
   equatable: ^2.0.3
   http: ^0.13.3
-  json_annotation: ^4.1.0
   intl: ^0.17.0
+  json_annotation: ^4.5.0
 
 dev_dependencies:
-  test: ^1.17.12
   build_runner: ^2.1.2
-  json_serializable: ^5.0.1
   faker: ^2.0.0
-  mockito: ^5.0.16
+  json_serializable: ^6.2.0
+  mockito: ^5.1.0
+  test: ^1.21.0
+  very_good_analysis: ^2.4.0

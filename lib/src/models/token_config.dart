@@ -4,7 +4,7 @@ part 'token_config.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class TokenConfig {
-  TokenConfig({
+  const TokenConfig({
     required this.allowlistAccount,
     required this.authorCurveExponent,
     required this.authorRewardPercentage,
@@ -69,6 +69,9 @@ class TokenConfig {
     required this.voteWindowDays,
   });
 
+  factory TokenConfig.fromJson(Map<String, dynamic> json) =>
+      _$TokenConfigFromJson(json);
+
   final dynamic allowlistAccount;
   final double authorCurveExponent;
   final double authorRewardPercentage;
@@ -131,9 +134,6 @@ class TokenConfig {
   final int votePowerConsumption;
   final int voteRegenerationSeconds;
   final int voteWindowDays;
-
-  factory TokenConfig.fromJson(Map<String, dynamic> json) =>
-      _$TokenConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$TokenConfigToJson(this);
 }
