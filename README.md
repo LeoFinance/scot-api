@@ -5,6 +5,10 @@
 
 A simple client to connect to the Scotbot interface of Hive tribes.
 
+## Testing
+
+Run `dart test`.
+
 ## Building
 
 Run `dart run build_runner watch` to create generated files.
