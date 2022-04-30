@@ -19,30 +19,32 @@ class ScotApiClient {
       'hive': '1',
     };
     final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
-    final bodyJson = await _fetchData(uri) as Map<String, Map<String, dynamic>>;
+    final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
+    if (bodyJson.isEmpty) {
+      throw const NotFoundFailure('Account not found');
+    }
 
-    final account =
-        bodyJson.map((key, value) => MapEntry(key, Account.fromJson(value)));
-    return account;
+    return {
+      for (final a in bodyJson.entries)
+        a.key: Account.fromJson(a.value as Map<String, dynamic>)
+    };
   }
 
   Future<Account> getAccountForToken(
     String accountName, {
     required String token,
   }) async {
-    final queryArgs = <String, String>{
-      'hive': '1',
-    };
-    queryArgs['token'] = token;
+    final queryArgs = <String, String>{'hive': '1', 'token': token};
     final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
-    final bodyJson = await _fetchData(uri) as Map<String, Map<String, dynamic>>;
+    final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
 
-    final account =
-        bodyJson.map((key, value) => MapEntry(key, Account.fromJson(value)));
-    return account[token]!;
+    if (!bodyJson.containsKey(token)) {
+      throw const NotFoundFailure('Token not found');
+    }
+    return Account.fromJson(bodyJson[token] as Map<String, dynamic>);
   }
 
-  Future<Map<String, dynamic>> _fetchData(Uri uri) async {
+  Future<dynamic> _fetchData(Uri uri) async {
     final postResponse =
         await (httpClient != null ? httpClient!.get(uri) : http.get(uri));
 
@@ -50,12 +52,7 @@ class ScotApiClient {
       throw ContentRequestFailure(statusCode: postResponse.statusCode);
     }
 
-    final data = jsonDecode(postResponse.body) as Map<String, dynamic>;
-    if (data.isEmpty) {
-      throw NotFoundFailure('Data not found at uri $uri');
-    } else {
-      return data;
-    }
+    return jsonDecode(postResponse.body) as Object;
   }
 
   /// Shows information about a post
@@ -72,18 +69,21 @@ class ScotApiClient {
       queryArgs['token'] = token;
     }
     final uri = Uri.https(_baseUrl, '/@$account/$permlink', queryArgs);
-    final bodyJson = await _fetchData(uri);
+    final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
+    if (bodyJson.isEmpty) {
+      throw const NotFoundFailure('Post not found');
+    }
 
-    return bodyJson.map<String, PostInfo>(
-      (key, dynamic value) =>
-          MapEntry(key, PostInfo.fromJson(value as Map<String, dynamic>)),
-    );
+    return {
+      for (final a in bodyJson.entries)
+        a.key: PostInfo.fromJson(a.value as Map<String, dynamic>)
+    };
   }
 
   Future<TokenInfo> getTokenInfo(String token) async {
     final queryArgs = <String, String>{'hive': '1', 'token': token};
     final uri = Uri.https(_baseUrl, '/info', queryArgs);
-    final bodyJson = await _fetchData(uri);
+    final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
 
     return TokenInfo.fromJson(bodyJson);
   }
@@ -91,7 +91,7 @@ class ScotApiClient {
   Future<TokenConfig> getConfig(String token) async {
     final queryArgs = <String, String>{'hive': '1', 'token': token};
     final uri = Uri.https(_baseUrl, '/config', queryArgs);
-    final bodyJson = await _fetchData(uri);
+    final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
 
     return TokenConfig.fromJson(bodyJson);
   }
@@ -99,18 +99,20 @@ class ScotApiClient {
   Future<List<PostInfo>> getFeed({
     required String tag,
     required String token,
-    required int limit,
+    int? limit,
   }) async {
     final queryArgs = <String, String>{
       'hive': '1',
       'tag': tag,
       'token': token,
-      'limit': limit.toString()
     };
+    if (limit != null) {
+      queryArgs['limit'] = limit.toString();
+    }
     final uri = Uri.https(_baseUrl, '/get_feed', queryArgs);
-    final bodyJson = await _fetchData(uri) as List<Map<String, dynamic>>;
+    final list = await _fetchData(uri) as List<dynamic>;
 
-    return bodyJson.map(PostInfo.fromJson).toList();
+    return [for (final p in list) PostInfo.fromJson(p as Map<String, dynamic>)];
   }
 
   Future<List<Discussion>> getDiscussionsBy(
@@ -129,9 +131,11 @@ class ScotApiClient {
       '/get_discussions_by_$discussionTypeStr',
       queryArgs,
     );
-    final bodyJson = await _fetchData(uri) as List<Map<String, dynamic>>;
+    final list = await _fetchData(uri) as List<dynamic>;
 
-    return bodyJson.map(Discussion.fromJson).toList();
+    return [
+      for (final p in list) Discussion.fromJson(p as Map<String, dynamic>)
+    ];
   }
 }
 

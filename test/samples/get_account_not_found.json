@@ -1,0 +1,27 @@
+{
+  "LEO": {
+    "downvote_weight_multiplier": 1.0,
+    "downvoting_power": 10000,
+    "earned_mining_token": 0,
+    "earned_other_token": 0,
+    "earned_staking_token": 0,
+    "earned_token": 0,
+    "hive": true,
+    "last_downvote_time": "2019-01-01T00:00:00",
+    "last_follow_refresh_time": "Tue, 01 Jan 2019 00:00:00 GMT",
+    "last_post": "Tue, 01 Jan 2019 00:00:00 GMT",
+    "last_root_post": "Tue, 01 Jan 2019 00:00:00 GMT",
+    "last_vote_time": "2019-01-01T00:00:00",
+    "last_won_mining_claim": "Tue, 01 Jan 2019 00:00:00 GMT",
+    "last_won_staking_claim": "Tue, 01 Jan 2019 00:00:00 GMT",
+    "muted": false,
+    "name": "fdasfjadsf",
+    "pending_token": 0,
+    "precision": 3,
+    "staked_mining_power": 0.0,
+    "staked_tokens": 0,
+    "symbol": "LEO",
+    "vote_weight_multiplier": 1.0,
+    "voting_power": 10000
+  }
+}

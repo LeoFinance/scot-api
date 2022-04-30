@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
+import 'package:faker/faker.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -26,6 +27,75 @@ void main() {
       test('does not require an httpClient', () {
         expect(ScotApiClient(), isNotNull);
       });
+    });
+
+    group('getAccount', () {
+      final accountName = faker.internet.userName();
+
+      test('returns Map<String, Account> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/get_account.json').readAsString(),
+        );
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await scotApiClient.getAccount(accountName),
+          isA<Map<String, Account>>(),
+        );
+      });
+
+      // test('throws NotFoundError if user not found', () async {
+      //   final response = MockResponse();
+      //   when(response.statusCode).thenReturn(200);
+      //   when(response.body).thenReturn('{}');
+      //   when(
+      //     httpClient.get(
+      //       any,
+      //     ),
+      //   ).thenAnswer((_) async => response);
+      //   expect(scotApiClient.getAccount(accountName),
+      //   throwsA(NotFoundFailure));
+      // });
+    });
+
+    group('getAccountForToken', () {
+      final accountName = faker.internet.userName();
+
+      test('returns Account on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/get_account.json').readAsString(),
+        );
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await scotApiClient.getAccountForToken(accountName, token: 'LEO'),
+          isA<Account>(),
+        );
+      });
+
+      // test('throws NotFoundError if user not found', () async {
+      //   final response = MockResponse();
+      //   when(response.statusCode).thenReturn(200);
+      //   when(response.body)
+      //       .thenReturn('test/samples/get_account_not_found.json');
+      //   when(
+      //     httpClient.get(
+      //       any,
+      //     ),
+      //   ).thenAnswer((_) async => response);
+      //   expect(scotApiClient.getAccount(accountName),
+      //   throwsA(NotFoundFailure));
+      // });
     });
 
     group('getPostInfo', () {
@@ -117,6 +187,96 @@ void main() {
                       ),
                     ),
               ),
+        );
+      });
+    });
+
+    group('getTokenInfo', () {
+      final token = faker.currency.name();
+
+      test('returns TokenInfo on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/token_info.json').readAsString(),
+        );
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await scotApiClient.getTokenInfo(token),
+          isA<TokenInfo>(),
+        );
+      });
+    });
+
+    group('getConfig', () {
+      final token = faker.currency.name();
+
+      test('returns TokenConfig on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/token_config.json').readAsString(),
+        );
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await scotApiClient.getConfig(token),
+          isA<TokenConfig>(),
+        );
+      });
+    });
+
+    group('getFeed', () {
+      final tag = faker.lorem.word();
+      final token = faker.currency.name();
+
+      test('returns List<PostInfo> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/feed.json').readAsString(),
+        );
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await scotApiClient.getFeed(tag: tag, token: token),
+          isA<List<PostInfo>>(),
+        );
+      });
+    });
+
+    group('getDiscussionsBy', () {
+      final token = faker.currency.name();
+      final tag = faker.lorem.word();
+
+      test('returns List<Discussion> on valid response', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/feed.json').readAsString(),
+        );
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          await scotApiClient.getDiscussionsBy(
+            DiscussionType.created,
+            token: token,
+            tag: tag,
+          ),
+          isA<List<Discussion>>(),
         );
       });
     });

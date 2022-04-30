@@ -5,24 +5,6 @@ import 'package:scot_api/scot_api.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('AccountTokenData', () {
-    group('fromJson', () {
-      test('decodes from JSON', () async {
-        final s =
-            await File('test/samples/account_token_data.json').readAsString();
-        final json = jsonDecode(s) as Map<String, dynamic>;
-
-        final leoAccount = json['LEO'] as Map<String, dynamic>;
-        expect(
-          Account.fromJson(leoAccount),
-          isA<Account>()
-              .having((atd) => atd.symbol, 'symbol', 'LEO')
-              .having((atd) => atd.stakedTokens, 'stakedTokens', 1007659),
-        );
-      });
-    });
-  });
-
   group('PostInfo', () {
     group('fromJson', () {
       test('decodes from JSON', () async {
