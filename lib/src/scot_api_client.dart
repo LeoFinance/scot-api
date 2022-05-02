@@ -14,15 +14,14 @@ class ScotApiClient {
 
   final http.Client? httpClient;
 
+  /// Returns a map of tokens to the account with the given name
+  /// If account not found, returns an empty Map
   Future<Map<String, Account>> getAccount(String accountName) async {
     final queryArgs = <String, String>{
       'hive': '1',
     };
     final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
     final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
-    if (bodyJson.isEmpty) {
-      throw const NotFoundFailure('Account not found');
-    }
 
     return {
       for (final a in bodyJson.entries)
@@ -30,6 +29,10 @@ class ScotApiClient {
     };
   }
 
+  /// Returns the token for the account with the given name.
+  /// If account not found, returns an Account with default fields (like
+  /// Account.empty, except the name and symbol fields are set).
+  /// If token not found, throws an Exception
   Future<Account> getAccountForToken(
     String accountName, {
     required String token,
@@ -37,10 +40,6 @@ class ScotApiClient {
     final queryArgs = <String, String>{'hive': '1', 'token': token};
     final uri = Uri.https(_baseUrl, '/@$accountName', queryArgs);
     final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
-
-    if (!bodyJson.containsKey(token)) {
-      throw const NotFoundFailure('Token not found');
-    }
     return Account.fromJson(bodyJson[token] as Map<String, dynamic>);
   }
 

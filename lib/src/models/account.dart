@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'account.g.dart';
 
@@ -96,6 +97,7 @@ class Account extends Equatable {
         earnedToken,
         lastDownvoteTime,
         lastPost,
+        lastRootPost,
         lastVoteTime,
         lastWonMiningClaim,
         lastWonStakingClaim,
@@ -105,6 +107,51 @@ class Account extends Equatable {
         stakedMiningPower,
         stakedTokens,
       ];
+
+  static Account empty = Account(
+    downvotingPower: 10000,
+    earnedToken: 0,
+    lastDownvoteTime: DateTime.utc(2019),
+    lastPost: DateTime.utc(2019),
+    lastRootPost: DateTime.utc(2019),
+    lastVoteTime: DateTime.utc(2019),
+    lastWonMiningClaim: DateTime.utc(2019),
+    lastWonStakingClaim: DateTime.utc(2019),
+    muted: false,
+    name: '',
+    pendingToken: 0,
+    stakedMiningPower: 0,
+    precision: 3,
+    stakedTokens: 0,
+    symbol: '',
+    votingPower: 10000,
+  );
+
+  @visibleForTesting
+  Account copyWith({String? name, String? symbol}) {
+    return Account(
+      name: name ?? this.name,
+      symbol: symbol ?? this.symbol,
+      votingPower: votingPower,
+      muted: muted,
+      downvotingPower: downvotingPower,
+      earnedMiningToken: earnedMiningToken,
+      earnedOtherToken: earnedOtherToken,
+      earnedStakingToken: earnedStakingToken,
+      earnedToken: earnedToken,
+      lastDownvoteTime: lastDownvoteTime,
+      lastPost: lastPost,
+      lastRootPost: lastRootPost,
+      lastVoteTime: lastVoteTime,
+      lastWonMiningClaim: lastWonMiningClaim,
+      lastWonStakingClaim: lastWonStakingClaim,
+      pendingToken: pendingToken,
+      precision: precision,
+      voteWeightMultiplier: voteWeightMultiplier,
+      stakedMiningPower: stakedMiningPower,
+      stakedTokens: stakedTokens,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$AccountToJson(this);
 

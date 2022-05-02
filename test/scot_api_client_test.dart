@@ -49,18 +49,17 @@ void main() {
         );
       });
 
-      // test('throws NotFoundError if user not found', () async {
-      //   final response = MockResponse();
-      //   when(response.statusCode).thenReturn(200);
-      //   when(response.body).thenReturn('{}');
-      //   when(
-      //     httpClient.get(
-      //       any,
-      //     ),
-      //   ).thenAnswer((_) async => response);
-      //   expect(scotApiClient.getAccount(accountName),
-      //   throwsA(NotFoundFailure));
-      // });
+      test('returns empty map when user not found', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn('{}');
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(await scotApiClient.getAccount(accountName), isEmpty);
+      });
     });
 
     group('getAccountForToken', () {
@@ -78,24 +77,31 @@ void main() {
           ),
         ).thenAnswer((_) async => response);
         expect(
+          // Can't use fake token here because the payload is parsed
           await scotApiClient.getAccountForToken(accountName, token: 'LEO'),
           isA<Account>(),
         );
       });
 
-      // test('throws NotFoundError if user not found', () async {
-      //   final response = MockResponse();
-      //   when(response.statusCode).thenReturn(200);
-      //   when(response.body)
-      //       .thenReturn('test/samples/get_account_not_found.json');
-      //   when(
-      //     httpClient.get(
-      //       any,
-      //     ),
-      //   ).thenAnswer((_) async => response);
-      //   expect(scotApiClient.getAccount(accountName),
-      //   throwsA(NotFoundFailure));
-      // });
+      test('returns null when user not found', () async {
+        const missingUsername = 'missing_username';
+
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/get_account_not_found.json').readAsString(),
+        );
+        when(
+          httpClient.get(
+            any,
+          ),
+        ).thenAnswer((_) async => response);
+        expect(
+          // Can't use fake token here because the payload is parsed
+          await scotApiClient.getAccountForToken(missingUsername, token: 'LEO'),
+          equals(Account.empty.copyWith(name: missingUsername, symbol: 'LEO')),
+        );
+      });
     });
 
     group('getPostInfo', () {
