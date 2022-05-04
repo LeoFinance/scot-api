@@ -15,3 +15,7 @@
   This means `getAccount` returns an empty Map and `getAccountForSymbol`
   returns an object like `Account.empty` except the `name` and `symbol` fields
   are set.
+
+## 0.2.1
+
+- `gePostInfo` returns an empty Map if not found

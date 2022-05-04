@@ -69,9 +69,6 @@ class ScotApiClient {
     }
     final uri = Uri.https(_baseUrl, '/@$account/$permlink', queryArgs);
     final bodyJson = await _fetchData(uri) as Map<String, dynamic>;
-    if (bodyJson.isEmpty) {
-      throw const NotFoundFailure('Post not found');
-    }
 
     return {
       for (final a in bodyJson.entries)
@@ -148,14 +145,4 @@ class ContentRequestFailure implements Exception {
   String toString() {
     return 'ContentRequestFailure: HTTP $statusCode received';
   }
-}
-
-/// Exception thrown when a resource cannot be found
-class NotFoundFailure implements Exception {
-  const NotFoundFailure(this.message);
-
-  final String message;
-
-  @override
-  String toString() => 'NotFoundFailure: $message';
 }

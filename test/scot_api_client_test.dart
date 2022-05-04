@@ -38,11 +38,7 @@ void main() {
         when(response.body).thenReturn(
           await File('test/samples/get_account.json').readAsString(),
         );
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(
           await scotApiClient.getAccount(accountName),
           isA<Map<String, Account>>(),
@@ -53,11 +49,7 @@ void main() {
         final response = MockResponse();
         when(response.statusCode).thenReturn(200);
         when(response.body).thenReturn('{}');
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(await scotApiClient.getAccount(accountName), isEmpty);
       });
     });
@@ -71,11 +63,7 @@ void main() {
         when(response.body).thenReturn(
           await File('test/samples/get_account.json').readAsString(),
         );
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(
           // Can't use fake token here because the payload is parsed
           await scotApiClient.getAccountForToken(accountName, token: 'LEO'),
@@ -91,11 +79,7 @@ void main() {
         when(response.body).thenReturn(
           await File('test/samples/get_account_not_found.json').readAsString(),
         );
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(
           // Can't use fake token here because the payload is parsed
           await scotApiClient.getAccountForToken(missingUsername, token: 'LEO'),
@@ -129,18 +113,18 @@ void main() {
         );
       });
 
-      test('throws PostNotFoundFailure on no data returned', () async {
+      test('returns empty object on no data found', () async {
         final response = MockResponse();
         when(response.statusCode).thenReturn(200);
-        when(response.body).thenReturn(jsonEncode(<String, String>{}));
+        when(response.body).thenReturn(jsonEncode(<String, dynamic>{}));
         when(httpClient.get(scotbotUri)).thenAnswer((_) async => response);
         expect(
-          scotApiClient.getPostInfo(
+          await scotApiClient.getPostInfo(
             account: author,
             permlink: permlink,
             token: token,
           ),
-          throwsA(isA<NotFoundFailure>()),
+          isEmpty,
         );
       });
 
@@ -156,9 +140,7 @@ void main() {
           permlink: permlink,
           token: token,
         );
-        verify(
-          httpClient.get(scotbotUri),
-        ).called(1);
+        verify(httpClient.get(scotbotUri)).called(1);
 
         expect(
           actual,
@@ -206,11 +188,7 @@ void main() {
         when(response.body).thenReturn(
           await File('test/samples/token_info.json').readAsString(),
         );
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(
           await scotApiClient.getTokenInfo(token),
           isA<TokenInfo>(),
@@ -227,11 +205,7 @@ void main() {
         when(response.body).thenReturn(
           await File('test/samples/token_config.json').readAsString(),
         );
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(
           await scotApiClient.getConfig(token),
           isA<TokenConfig>(),
@@ -249,11 +223,7 @@ void main() {
         when(response.body).thenReturn(
           await File('test/samples/feed.json').readAsString(),
         );
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(
           await scotApiClient.getFeed(tag: tag, token: token),
           isA<List<PostInfo>>(),
@@ -271,11 +241,7 @@ void main() {
         when(response.body).thenReturn(
           await File('test/samples/feed.json').readAsString(),
         );
-        when(
-          httpClient.get(
-            any,
-          ),
-        ).thenAnswer((_) async => response);
+        when(httpClient.get(any)).thenAnswer((_) async => response);
         expect(
           await scotApiClient.getDiscussionsBy(
             DiscussionType.created,
