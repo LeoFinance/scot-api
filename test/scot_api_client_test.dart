@@ -116,7 +116,7 @@ void main() {
       test('returns empty object on no data found', () async {
         final response = MockResponse();
         when(response.statusCode).thenReturn(200);
-        when(response.body).thenReturn(jsonEncode(<String, dynamic>{}));
+        when(response.body).thenReturn(jsonEncode(<String, PostInfo>{}));
         when(httpClient.get(scotbotUri)).thenAnswer((_) async => response);
         expect(
           await scotApiClient.getPostInfo(
