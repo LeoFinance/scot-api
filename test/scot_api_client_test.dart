@@ -265,6 +265,24 @@ void main() {
           isA<List<Discussion>>(),
         );
       });
+
+      test('returns empty list when feed not found', () async {
+        const missingTag = 'missing_tag';
+        final token = faker.currency.name();
+
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn('[]');
+        when(httpClient.get(any)).thenAnswer((_) async => response);
+        expect(
+          await scotApiClient.getDiscussionsBy(
+            DiscussionType.created,
+            token: token,
+            tag: missingTag,
+          ),
+          isEmpty,
+        );
+      });
     });
   });
 }
