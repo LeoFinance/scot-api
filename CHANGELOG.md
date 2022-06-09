@@ -23,3 +23,7 @@
 ## 0.3.0
 
 - Add Discussion.empty
+
+## 0.4.0
+
+- Add ActiveVote.empty
