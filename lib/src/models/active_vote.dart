@@ -24,6 +24,18 @@ class ActiveVote extends Equatable {
     return DateTime.parse(json + (json.endsWith('Z') ? '' : 'Z'));
   }
 
+  static final empty = ActiveVote(
+    authorperm: '',
+    blockNum: 0,
+    percent: 0,
+    revoted: false,
+    rshares: 0,
+    timestamp: DateTime(1970),
+    token: '',
+    voter: '',
+    weight: 0,
+  );
+
   final String? authorperm;
   final int blockNum;
   final int percent;

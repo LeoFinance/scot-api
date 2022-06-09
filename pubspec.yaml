@@ -1,6 +1,6 @@
 name: scot_api
 description: A simple client to connect to the Scotbot interface of Hive tribes.
-version: 0.3.0
+version: 0.4.0
 repository: https://github.com/LeoFinance/scot-api
 
 environment:
