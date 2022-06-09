@@ -19,3 +19,7 @@
 ## 0.2.1
 
 - `gePostInfo` returns an empty Map if not found
+
+## 0.3.0
+
+- Add Discussion.empty
