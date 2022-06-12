@@ -11,7 +11,7 @@ class PostInfo extends Equatable {
     required this.app,
     required this.author,
     required this.authorCurveExponent,
-    required this.authorPayoutBeneficiaries,
+    this.authorPayoutBeneficiaries,
     required this.authorperm,
     required this.beneficiariesPayoutValue,
     required this.block,
@@ -27,8 +27,8 @@ class PostInfo extends Equatable {
     required this.lastUpdate,
     required this.mainPost,
     required this.muted,
-    required this.parentAuthor,
-    required this.parentPermlink,
+    this.parentAuthor,
+    this.parentPermlink,
     required this.pendingToken,
     required this.precision,
     required this.promoted,
@@ -50,7 +50,7 @@ class PostInfo extends Equatable {
   final String? app;
   final String author;
   final double authorCurveExponent;
-  final String authorPayoutBeneficiaries;
+  final String? authorPayoutBeneficiaries;
   final String authorperm;
   final int beneficiariesPayoutValue;
   final int block;
@@ -66,8 +66,8 @@ class PostInfo extends Equatable {
   final DateTime lastUpdate;
   final bool mainPost;
   final bool muted;
-  final String parentAuthor;
-  final String parentPermlink;
+  final String? parentAuthor;
+  final String? parentPermlink;
   final int pendingToken;
   final int precision;
   final int promoted;

@@ -27,3 +27,8 @@
 ## 0.4.0
 
 - Add ActiveVote.empty
+
+## 0.4.1
+
+- PostInfo.authorPayoutBeneficiaries can be null
+- PostInfo.parentAuthor and parentPermlink can be null
