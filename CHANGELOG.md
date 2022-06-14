@@ -32,3 +32,7 @@
 
 - PostInfo.authorPayoutBeneficiaries can be null
 - PostInfo.parentAuthor and parentPermlink can be null
+
+## 0.4.2
+
+- Add 'comments' and 'replies' to allowed DiscussionTypes

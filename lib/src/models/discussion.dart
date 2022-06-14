@@ -3,7 +3,15 @@ import 'package:scot_api/src/models/models.dart';
 
 part 'discussion.g.dart';
 
-enum DiscussionType { created, trending, promoted, hot, blog }
+enum DiscussionType {
+  created,
+  trending,
+  promoted,
+  hot,
+  blog,
+  comments,
+  replies
+}
 
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class Discussion {
