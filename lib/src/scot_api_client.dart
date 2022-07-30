@@ -3,16 +3,21 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:pool/pool.dart';
 import 'package:scot_api/scot_api.dart';
 
 class ScotApiClient {
   /// {@macro scot_api_client}
-  ScotApiClient({this.httpClient}) {
+  ScotApiClient({this.httpClient, this.maxConnections})
+      : _httpPool = maxConnections != null ? Pool(maxConnections) : null {
     initializeDateFormatting('en-US');
   }
   static const _baseUrl = 'scot-api.hive-engine.com';
 
   final http.Client? httpClient;
+  final int? maxConnections;
+
+  final Pool? _httpPool;
 
   /// Returns a map of tokens to the account with the given name
   /// If account not found, returns an empty Map
@@ -44,6 +49,12 @@ class ScotApiClient {
   }
 
   Future<dynamic> _fetchData(Uri uri) async {
+    return _httpPool != null
+        ? _httpPool!.withResource<dynamic>(() => _fetchDataGranted(uri))
+        : _fetchDataGranted(uri);
+  }
+
+  Future<dynamic> _fetchDataGranted(Uri uri) async {
     final postResponse =
         await (httpClient != null ? httpClient!.get(uri) : http.get(uri));
 

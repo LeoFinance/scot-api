@@ -36,3 +36,8 @@
 ## 0.4.2
 
 - Add 'comments' and 'replies' to allowed DiscussionTypes
+
+## 0.4.3
+
+- Add maxConnections parameter to client to throttle the number of parallel 
+  connections

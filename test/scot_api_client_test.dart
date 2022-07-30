@@ -29,6 +29,40 @@ void main() {
       });
     });
 
+    group('pooling', () {
+      test('handles multiple connections without pooling', () async {
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/get_account.json').readAsString(),
+        );
+        when(httpClient.get(any)).thenAnswer(
+          (_) async => Future.delayed(Duration(seconds: 1), () => response),
+        );
+        // TODO Check that whole thing takes < 2 seconds
+        expect(scotApiClient.getAccount('foo'), completion(anything));
+        expect(scotApiClient.getAccount('bar'), completion(anything));
+      });
+
+      test('waits if pool set to 1', () async {
+        final throttledScotApiClient =
+            ScotApiClient(httpClient: httpClient, maxConnections: 1);
+
+        final response = MockResponse();
+        when(response.statusCode).thenReturn(200);
+        when(response.body).thenReturn(
+          await File('test/samples/get_account.json').readAsString(),
+        );
+        when(httpClient.get(any)).thenAnswer(
+          (_) async => Future.delayed(Duration(seconds: 1), () => response),
+        );
+
+        // TODO Check that whole thing takes > 2 seconds
+        expect(throttledScotApiClient.getAccount('foo'), completion(anything));
+        expect(throttledScotApiClient.getAccount('bar'), completion(anything));
+      });
+    });
+
     group('getAccount', () {
       final accountName = faker.internet.userName();
 
